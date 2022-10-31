@@ -1,0 +1,47 @@
+// {get} & {get set} in swift protocols: https://vishal-singh-panwar.github.io/SwiftProtocols/
+
+protocol VoiceAssistant {
+    var name: String {get}
+    // a protocol can require any conforming type(structs, classes, enums) to provide a property with a particular name and type.
+    // The conforming type can fulfill this requirement either by using a stored property or a computed property, hence properties inside protocols, can be declared with var keyword only
+    var voice: String {get set}
+}
+
+// different ways by which the conforming types can fulfill the property requirement of a protocol
+// 1)
+struct Siri: VoiceAssistant {
+    let name: String
+    // even though inside protocols, properties are declared with var keyword only, we can use let for fulfilling get property requiremnet inside the conforming types.
+    // let voice: String // Compilation Error: Candidate is not settable, but protocol requires it.
+    // If a protocol requires a property to be gettable and settable, that property requirement cannot be fulfilled by a constant (let) stored property or a read-only computed property.
+    var voice: String
+}
+// 2)
+struct Alexa: VoiceAssistant {
+    var name: String
+    // A get property does not mean that the conforming type has to declare that propety as get only. By making version as get property in VoiceAssistant, we are asking the conforming types to provide a getter method with name version. VoiceAssistant is not stopping the conforming types to set the property version.
+    var voice: String
+}
+// 3)
+struct Cortana: VoiceAssistant {
+    let _name: String
+    var name: String {
+        get {
+            return _name
+        }
+    }
+    var _voice: String
+    var voice: String {
+        get {
+            return _voice
+        }
+        set {
+            _voice = newValue
+        }
+    }
+}
+
+// VVIP: How get properties are different from get set properties in a protocol? from https://vishal-singh-panwar.github.io/SwiftProtocols/
+
+
+
