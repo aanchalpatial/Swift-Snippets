@@ -1,0 +1,36 @@
+import UIKit
+
+// Subclass NibBackedView to avoid custom view initialisations 
+
+@IBDesignable
+class NibBackedView: UIView {
+
+    class var nibName: String {
+        return String(describing: self)
+    }
+
+    private(set) var nib: UIView!
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        loadNib()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        loadNib()
+    }
+
+    private func loadNib() {
+		    backgroundColor = .clear
+		    let nib = Bundle(for: Self.self).loadNibNamed(Self.nibName, owner: self, options: nil)?.first as! UIView
+        nib.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(nib)
+        leadingAnchor.constraint(equalTo: nib.leadingAnchor).isActive = true
+        trailingAnchor.constraint(equalTo: nib.trailingAnchor).isActive = true
+        topAnchor.constraint(equalTo: nib.topAnchor).isActive = true
+        bottomAnchor.constraint(equalTo: nib.bottomAnchor).isActive = true
+        self.nib = nib
+		    awakeFromNib()
+    }
+}
