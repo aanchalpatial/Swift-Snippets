@@ -1,0 +1,70 @@
+import UIKit
+
+protocol SomeViewUpdatable: AnyObject {}
+
+final class SomeViewController: UIViewController {
+    // MARK: - Views
+
+    // MARK: - Properties
+    let viewModel: SomeViewModelRepresentable
+
+    // MARK: - Initializers
+    init(viewModel: SomeViewModelRepresentable) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.view = self
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - View Life Cycle
+    override func loadView() {
+        createViews()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configure()
+    }
+
+    // MARK: - Private Methods
+    private func createViews() {
+        view = UIView()
+    }
+
+    private func configure() {
+        view.backgroundColor = .blue
+    }
+}
+
+// MARK: - SomeViewDelegate
+extension SomeViewController: SomeViewUpdatable {}
+
+// MARK: - Constant
+extension SomeViewController {
+    enum Constant {}
+}
+
+protocol SomeViewModelRepresentable: AnyObject {
+    var view: SomeViewUpdatable? { get set }
+}
+
+final class SomeViewModel {
+    // MARK: - Properties
+    weak var view: SomeViewUpdatable?
+
+    // MARK: - Initializer
+    init() {}
+
+    // MARK: - Private Methods
+}
+
+// MARK: - SomeViewModelRepresentable
+extension SomeViewModel: SomeViewModelRepresentable {}
+
+// MARK: - Constant
+extension SomeViewModel {
+    enum Constant {}
+}
