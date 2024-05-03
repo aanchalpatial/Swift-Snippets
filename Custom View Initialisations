@@ -1,6 +1,6 @@
 import UIKit
 
-// Subclass NibBackedView to avoid custom view initialisations 
+// Subclass this class NibBackedView to avoid custom view initialisations 
 
 @IBDesignable
 class NibBackedView: UIView {
@@ -22,8 +22,8 @@ class NibBackedView: UIView {
     }
 
     private func loadNib() {
-		    backgroundColor = .clear
-		    let nib = Bundle(for: Self.self).loadNibNamed(Self.nibName, owner: self, options: nil)?.first as! UIView
+	backgroundColor = .clear
+	let nib = Bundle(for: Self.self).loadNibNamed(Self.nibName, owner: self, options: nil)?.first as! UIView
         nib.translatesAutoresizingMaskIntoConstraints = false
         addSubview(nib)
         leadingAnchor.constraint(equalTo: nib.leadingAnchor).isActive = true
@@ -31,6 +31,6 @@ class NibBackedView: UIView {
         topAnchor.constraint(equalTo: nib.topAnchor).isActive = true
         bottomAnchor.constraint(equalTo: nib.bottomAnchor).isActive = true
         self.nib = nib
-		    awakeFromNib()
+	awakeFromNib()
     }
 }
