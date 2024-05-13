@@ -1,0 +1,22 @@
+// Note: - contentView is to be created after setting the file owner
+override init(frame: CGRect) {
+    super.init(frame: frame)
+    customViewInit()
+}
+
+required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    customViewInit()
+}
+
+private func customViewInit() {
+    Bundle.main.loadNibNamed(String(describing: SomeCustomView.self), owner: self, options: nil)
+    contentView.translatesAutoresizingMaskIntoConstraints = false
+    addSubview(contentView)
+    NSLayoutConstraint.activate([
+        contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+        contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
+        contentView.topAnchor.constraint(equalTo: topAnchor),
+        contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
+    ])
+}
