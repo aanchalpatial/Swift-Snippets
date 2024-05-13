@@ -1,25 +1,24 @@
 extension Decodable {
-    static func parse(jsonFile: String) -> Self? {
+    static func parse(jsonFile: String) throws -> Self {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        guard let url = Bundle.main.url(forResource: jsonFile, withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let response = try? decoder.decode(Self.self, from: data) else {
-            return nil
+
+        guard let url = Bundle.main.url(forResource: jsonFile, withExtension: "json")
+        else {
+            throw NSError(domain: "JSONReaderErrorDomain", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not find JSON file with filename \(jsonFile)."])
         }
-        return response
+        let data = try Data(contentsOf: url)
+        return try decoder.decode(Self.self, from: data)
     }
-    
-    static func parse(jsonString: String) -> Self? {
+
+    static func parse(jsonString: String) throws -> Self {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        guard let data = jsonString.data(using: .utf8),
-              let response = try? decoder.decode(Self.self, from: data) else {
-            return nil
+
+        guard let data = jsonString.data(using: .utf8) else {
+            throw NSError(domain: "JSONReaderErrorDomain", code: 2, userInfo: [NSLocalizedDescriptionKey: "Unable to convert to data."])
         }
-        return response
+        return try decoder.decode(Self.self, from: data)
     }
 }
 
@@ -35,7 +34,9 @@ let apJson = """
     }
 """
 
-if let ap = Person.parse(jsonString: apJson) {
-    print(ap.name)
+do {
+    let response = try Person.parse(jsonString: apJson)
+} catch let error {
+    print(error.localizedDescription)
 }
 
