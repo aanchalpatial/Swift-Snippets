@@ -1,0 +1,46 @@
+// METHOD 1
+func httpRequest(completion: @escaping () -> Void) {
+    let url = URL(string: "https://www.stackoverflow.com")! // note, https, not http
+
+    let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        defer {
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
+
+        guard
+            error == nil,
+            let data = data,
+            let string = String(data: data, encoding: .utf8)
+        else {
+            print(error ?? "Unknown error")
+            return
+        }
+
+        print(string)
+    }
+    task.resume()
+}
+
+// METHOD 2: Structured concurrency
+func fetchMoviesFromAPI() async throws -> ResponseModel {
+    let url = URL(string: "https://www.randomurl.com")!
+
+    let (data, _) = try await URLSession.shared.data(from: url)
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let decoded = try decoder.decode(ResponseModel.self, from: data)
+
+    return decoded.results
+}
+
+Task {
+    do {
+        let movies = try await fetchMoviesFromAPI()
+        print(movies)
+    } catch {
+        print(error)
+    }
+}
