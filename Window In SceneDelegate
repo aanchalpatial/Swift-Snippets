@@ -1,3 +1,5 @@
+// Note: Remember removing initial view controller array from storyboard
+
 let window = UIWindow(windowScene: scene)
 window.rootViewController = TabBarViewController()
 self.window = window
