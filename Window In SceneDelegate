@@ -1,0 +1,4 @@
+let window = UIWindow(windowScene: scene)
+window.rootViewController = TabBarViewController()
+self.window = window
+window.makeKeyAndVisible()
