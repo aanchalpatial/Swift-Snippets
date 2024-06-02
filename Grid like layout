@@ -1,3 +1,4 @@
+// do remember to mark: collection.delegate = self
 extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding = interitemSpacing * CGFloat(itemsPerRow)
