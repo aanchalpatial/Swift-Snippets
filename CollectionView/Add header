@@ -1,5 +1,8 @@
-// add below line to viewDidLoad
+// add below 2 lines to viewDidLoad
 collectionView.dataSource = self
+collectionView.register(UINib(nibName: PinterestHeaderView.identifier, bundle: nil),
+                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                        withReuseIdentifier: PinterestHeaderView.identifier)
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
