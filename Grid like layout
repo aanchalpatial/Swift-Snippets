@@ -1,0 +1,21 @@
+extension ViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let padding = interitemSpacing * CGFloat(itemsPerRow)
+        let availableWidth = collectionView.frame.width - padding
+        let cellWidth = availableWidth / CGFloat(itemsPerRow)
+        print("\(padding), \(availableWidth), \(cellWidth)")
+        return CGSize(width: cellWidth, height: cellWidth)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        // Note: - default values is 10.0
+        // The minimum spacing to use between lines of items in the grid.
+        lineSpacing
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        // Note: - default values is 10.0
+        // The minimum spacing to use between items in the same row.
+        interitemSpacing
+    }
+}
